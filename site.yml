@@ -55,6 +55,14 @@
       state: latest
     when: ansible_distribution == "RedHat"
 
+  - name: start httpd (RedHat)
+    tags: apache,apache2,httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "RedHat"
+
   - name: copy default html file for site
     tags: apache,apache2,httpd
     copy:
