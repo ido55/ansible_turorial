@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  tasks:
+
+  - name: remove apache and php Ubuntu
+    package:
+      name:
+        - apache2
+        - libapache-mod-php
+      state: absent
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: remove apache and php RedHat
+    package:
+      name:
+        - httpd
+        - php
+      state: absent
+      update_cache: yes
+    when: ansible_distribution == "RedHat"
