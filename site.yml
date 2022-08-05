@@ -37,6 +37,16 @@
       state: latest
     when: ansible_distribution == "RedHat"
 
+  - name: copy default html file for site
+    tags: apache,apache2,httpd
+    copy:
+      src: /home/ido/ansible_turorial/files/default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+
 - hosts: db_servers
   tasks:
   - name: install mariadb package (RedHat)
