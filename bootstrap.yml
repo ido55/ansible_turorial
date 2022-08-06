@@ -1,0 +1,40 @@
+---
+- hosts: all
+  pre_tasks:
+
+  - name: install updates (RedHat)
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "RedHat"
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  tasks:
+  - name: create simon user
+    tags: always
+    user:
+      name: simone
+      groups: root
+
+  - name: add an SSH key for simone
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL5nmQNMvttIYZ9Rc4gnYe/Pj5XogutV6/4HbDDyt+q7 ansible"
+
+  - name: add sudoers file for simone
+    tags: always
+    copy:
+      src: /home/ido/ansible_turorial/files/sudoer_simone
+      dest: /etc/sudoers.d/simone
+      owner: root
+      group: root
+      mode: 0440
